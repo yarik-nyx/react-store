@@ -12,6 +12,39 @@ import Pagination from '../components/Pagination'
 const Home = ({searchValue}) => {
     const dispatch = useDispatch()
 
+
+    const fetchData = async () => {
+        setLoading(true)
+
+        const sort = sortId.sortProperty.replace("-", "")
+        
+        const category = categoryId > 0 ? `&category=${categoryId}` : ''
+        
+        const search = searchValue ? `search=${searchValue}` : ''
+
+        try{
+            const res = await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?${search}${category}&sortBy=${sort}`)
+            dispatch(setPageCount(Math.ceil(res.data.length / 8)))
+
+        } catch (err) {
+            dispatch(setPageCount(1))
+        }
+
+        try {
+            const res =  await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?page=${currentPage}&limit=8&${search}${category}&sortBy=${sort}&order=${sortId.sortType}`)
+
+            setTimeout(() => {
+                setItems(res.data)
+                setLoading(false)
+            }, 500)
+        } catch (error) {
+            setItems([])
+            setLoading(false)
+        }
+
+        window.scrollTo(0, 0)
+    }
+
     const {categoryId, categoryName} = useSelector((state) => state.filterReducer.category)
 
     const sortId = useSelector((state) => state.filterReducer.sort)
@@ -30,30 +63,7 @@ const Home = ({searchValue}) => {
 
     
     React.useEffect(() => {
-        setLoading(true)
-
-        const sort = sortId.sortProperty.replace("-", "")
-        
-        const category = categoryId > 0 ? `&category=${categoryId}` : ''
-        
-        const search = searchValue ? `search=${searchValue}` : ''
-
-        axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?${search}${category}&sortBy=${sort}`).then((res) => {
-            dispatch(setPageCount(Math.ceil(res.data.length / 8)))
-        }).catch(err => {
-            dispatch(setPageCount(1))
-        })
-
-        axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?page=${currentPage}&limit=8&${search}${category}&sortBy=${sort}&order=${sortId.sortType}`).then((res) => {
-            setTimeout(() => {
-                setItems(res.data)
-                setLoading(false)
-            }, 500)
-        }).catch(err => {
-            setItems([])
-            setLoading(false)
-        })
-        window.scrollTo(0, 0)
+        fetchData()
     },[categoryId, sortId, searchValue, currentPage])
     console.log('data', items);
     return (
