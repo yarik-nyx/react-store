@@ -3,6 +3,7 @@ import axios from 'axios'
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import ItemBlock from '../components/ItemBlock'
+import { Link } from 'react-router-dom'
 import { Skeleton } from '../components/ItemBlock/Skeleton'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrPageCount, setPageCount } from '../redux/slices/filterSlice'
@@ -11,6 +12,7 @@ import Pagination from '../components/Pagination'
 
 const Home = ({searchValue}) => {
     const dispatch = useDispatch()
+
 
 
     const fetchData = async () => {
@@ -45,6 +47,16 @@ const Home = ({searchValue}) => {
         window.scrollTo(0, 0)
     }
 
+    const categoriesDict = {
+        1:"Processors",
+        2:"Motherboards",
+        3:"Videocards",
+        4:"Drams",
+        5:"Powerunits",
+        6:"Coolings",
+        7:"Ssd_hdd"
+    }
+
     const {categoryId, categoryName} = useSelector((state) => state.filterReducer.category)
 
     const sortId = useSelector((state) => state.filterReducer.sort)
@@ -65,7 +77,7 @@ const Home = ({searchValue}) => {
     React.useEffect(() => {
         fetchData()
     },[categoryId, sortId, searchValue, currentPage])
-    console.log('data', items);
+
     return (
         <div className="container">
             <div className="content__top">
@@ -77,15 +89,16 @@ const Home = ({searchValue}) => {
                     {
                         isLoading ? [...new Array(12)].map((_, i) => <Skeleton key={i}/>) :
                         items.map((value) => (
-                            <ItemBlock 
-                                key={value.id}
-                                id={value.id}
-                                title={value.title} 
-                                price={value.price} 
-                                image={value.imageUrl} 
-                                letters={value.letters} 
-                                rating={value.rating}
-                                types={value.types}/>
+                            <Link key={value.id} to={`/${categoriesDict[value.category]}/${value.id}`}>
+                                <ItemBlock 
+                                    id={value.id}
+                                    title={value.title} 
+                                    price={value.price} 
+                                    image={value.imageUrl} 
+                                    letters={value.letters} 
+                                    rating={value.rating}
+                                    types={value.types}/>
+                            </Link>
                         ))
                     }
                 </div>
