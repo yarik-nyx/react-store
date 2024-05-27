@@ -1,42 +1,86 @@
 import React from "react";
-
+import { Link } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import { addItem, removeItem, removeItems } from "../redux/slices/cartSlice";
 
-const CartItem = ({id, title,type, price, count, image, letter}) => {
+const CartItem = ({id, idPage, title,type, price, count, imageUrl, letter}) => {
 
     const dispatch = useDispatch()
 
     const onClickPlus = () => {
-        dispatch(addItem({
-            id,
-            price
-        }))
+        let item = {}
+        if(!type || !letter){
+             item = {
+                id,
+                price,
+            }
+        } else {
+            item = {
+                id,
+                price,
+                letter,
+                type
+            }
+        }
+        dispatch(addItem(item))
     }
 
     const onClickMinus = () => {
-        dispatch(removeItem(id))
+        let item = {}
+        if(!type || !letter){
+             item = {
+                id,
+                price,
+            }
+        } else {
+            item = {
+                id,
+                price,
+                letter,
+                type
+            }
+        }
+        dispatch(removeItem(item))
     }
 
     const onClickClear = () => {
-        dispatch(removeItems(id))
+        let item = {}
+        if(!type || !letter){
+             item = {
+                id,
+                price,
+            }
+        } else {
+            item = {
+                id,
+                price,
+                letter,
+                type
+            }
+        }
+        dispatch(removeItems(item))
     }
 
     return (
         <div class="cart">
             <div class="content__items">
                 <div class="cart__item">
-                    <div class="cart__item-img">
-                        <img
-                        class="item-block__image"
-                        src={image}
-                        alt="Item"
-                        />
-                    </div>
-                    <div class="cart__item-info">
-                        <h3>{title}</h3>
-                        <p>{type}, {letter}</p>
-                    </div>
+                        <div className="cart__item-img">
+                        <Link key={id} to={type ? `/Component/${idPage}` : `/Component/${id}`}>
+                            <img
+                            className="item-block__image"
+                            src={imageUrl}
+                            alt="Item"
+                            />
+                        </Link>
+                        </div>
+                        <div className="cart__item-info">
+                        <Link key={id} to={type ? `/Component/${idPage}` : `/Component/${id}`}>
+                                <h3>{title}</h3>
+                                {type && letter  && <p>{type}, {letter}</p>}
+                            </Link>
+                        </div>
+                    
                     <div class="cart__item-count">
                         <div onClick={onClickMinus} class="button button--outline button--circle cart__item-count-minus">
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +98,7 @@ const CartItem = ({id, title,type, price, count, image, letter}) => {
                         </div>
                     </div>
                     <div class="cart__item-price">
-                        <b>{count * price}</b>
+                        <b>{count * price} ₽</b>
                     </div>
                     <div class="cart__item-remove">
                         <div onClick={onClickClear} class="button button--outline button--circle">

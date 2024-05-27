@@ -27,8 +27,8 @@
 
 @media (min-width: 1620px) {
     .app-catalog-1gk1vav {
-        margin-left:auto;
-        margin-right: auto;
+        margin-left:80px;
+        margin-right: 80px;
     }
 }
 
@@ -264,8 +264,8 @@
 
 @media (min-width: 1620px) {
     .app-catalog-1sbr2xg {
-        margin-left:auto;
-        margin-right: auto;
+        margin-left:80px;
+        margin-right: 80px;
     }
 }
 
@@ -477,6 +477,7 @@
 .app-catalog-azyzeh {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+    height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -488,12 +489,14 @@
         -ms-flex-pack: center;
         -webkit-justify-content: center;
         justify-content: center;
+        height: 100%;
     }
 }
 
 @media (min-width: 1024px) {
     .app-catalog-azyzeh {
         grid-template-columns:repeat(3, minmax(0, 1fr));
+        height: 100%;
     }
 }
 
@@ -501,12 +504,14 @@
     .app-catalog-azyzeh {
         -webkit-column-gap:60px;
         column-gap: 60px;
+        height: 100%;
     }
 }
 
 @media (min-width: 1620px) {
     .app-catalog-azyzeh {
         grid-template-columns:400px minmax(0, 1fr) minmax(0, 1fr);
+        height: 100%;
     }
 }
 
@@ -868,6 +873,10 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+}
+
+img {
+    background-attachment: fixed
 }
 
 .app-catalog-3fim88 {

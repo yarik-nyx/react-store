@@ -1,11 +1,45 @@
-import React from 'react'
+import React, {useState} from 'react'
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { addItem } from '../redux/slices/cartSlice';
+import '../scss/components/_full-item.scss'
 
-import './PowerunitComponent.scss'
 
+const FullItem = () => {
+    
+    const dispatch = useDispatch()
 
-const PowerunitComponent = () => {
+    let [count, setCount] = useState(0)
+
+    const onClickAdd = () => {
+        setCount(++count)
+        let item = {}
+        if(!data.types || !data.letters){
+             item = {
+                id:data.id,
+                title:data.title,
+                price:data.price,
+                imageUrl:data.imageUrl,
+            }
+        } else {
+             item = {
+                id:data.id,
+                title:data.title,
+                price:data.price,
+                imageUrl:data.imageUrl,
+                type: data.types[typeCurr],
+                letter: data.letters[letterCurr]
+            }
+        }
+
+        dispatch(addItem(item))
+    }
+
+    let [typeCurr, setTypeCurr] = useState(0)
+
+    let [letterCurr, setLetterCurr] = useState(0)
+
 
     const [data, setData] = React.useState()
 
@@ -13,9 +47,12 @@ const PowerunitComponent = () => {
 
     const navigate = useNavigate()
 
+    const categories = ['','Процессор', 'Материнская плата','Видеокарта','Оперативная память','Блок питания', 'Устройство охлаждения', 'HDD/SDD']
+
     const fetchComponent = async () => {
         try {
             const {data} = await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items/${id}`)
+            console.log(data);
             setData(data)
         } catch (error) {
             alert('Компонент не найден')
@@ -38,7 +75,7 @@ const PowerunitComponent = () => {
             <div data-meta-name="ProductHeaderLayout" class="app-catalog-1xdhyk6 e19nkc9p0">
                 <div class="app-catalog-64xkav eyocz9l0"></div>
                 <div data-meta-name="ProductHeaderLayout__title" class="app-catalog-3z12b7 eotjnw00">
-                    <h1 class="e1ubbx7u0 eml1k9j0 app-catalog-lc5se5 e1gjr6xo0" color="Main">Блок питания {data.title}</h1>
+                    <h1 class="e1ubbx7u0 eml1k9j0 app-catalog-lc5se5 e1gjr6xo0" color="Main">{categories[data.category]} {data.title}</h1>
                 </div>
                 <div class="app-catalog-1xdhyk6 e13k8jft0">
                     <div class="app-catalog-1kldss0 eyoh4ac0">
@@ -95,6 +132,11 @@ const PowerunitComponent = () => {
                                             <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Число ядер:</span> <span class="app-catalog-kwpt08 eetknoe0">6, потоков 12;</span></li>
                                             <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Тепловыделение:</span> <span class="app-catalog-kwpt08 eetknoe0">65 Вт;</span></li>
                                             <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -105,7 +147,7 @@ const PowerunitComponent = () => {
                             <div data-meta-name="ProductHeaderContentLayout__third-column" class="app-catalog-qhusmh eme04gi0">
                                 <div class="app-catalog-0 e33gsaq0">
                                     <div class="e13ri1pq0 app-catalog-kjjdo6 e1pr7ieb0" data-meta-name="PriceBlock">
-                                        <div data-meta-name="PriceBlock__price" class="app-catalog-0 e1xrzi9t0"><span class="e10p9yfm0 e2bu0ii0 e106ikdt0 app-catalog-1sf0rs0 e1gjr6xo0" data-meta-name="" color="None"><span data-meta-is-total="notTotal" data-meta-price="13 890" class="app-catalog-0 eb8dq160"><span class="e1j9birj0 e106ikdt0 app-catalog-8hy98m e1gjr6xo0" color="None">13 890</span>
+                                        <div data-meta-name="PriceBlock__price" class="app-catalog-0 e1xrzi9t0"><span class="e10p9yfm0 e2bu0ii0 e106ikdt0 app-catalog-1sf0rs0 e1gjr6xo0" data-meta-name="" color="None"><span data-meta-is-total="notTotal" data-meta-price="13 890" class="app-catalog-0 eb8dq160"><span class="e1j9birj0 e106ikdt0 app-catalog-8hy98m e1gjr6xo0" color="None">{data.price}</span>
                                             <span class="app-catalog-1xgjkxr eof3cbk0">₽</span>
                                             </span>
                                             </span>
@@ -117,9 +159,23 @@ const PowerunitComponent = () => {
                                     <div class="app-catalog-14fygjj e1mwo0rv0">
                                         <div class="app-catalog-1i6j8t0 elgcxfy0">
                                             <div class="app-catalog-19w7a63 e113xh920">
-                                                <div data-checkout-button="true" class="app-catalog-zg5qvs e17quee80"><button class="e11w80q30 e4uhfkv0 app-catalog-zkoen2 e4mggex0" data-meta-name="BasketDesktopButton" data-meta-disabled="false" type="button" title=""><span class="app-catalog-1xdhyk6 e1hf2t4f0"><span class="e1pbr73b0 app-catalog-bh6qcy e1dsa0940"><span class="e1fsc6a40 app-catalog-6po9t6 e14kw8wi0"><svg viewBox="0 0 20 20"><use href="#cart_add"></use></svg></span><span class="app-catalog-19y4hmw e1fnp08x0">В корзину</span></span></span></button></div>
+                                            <button className="button button--outline button--add" onClick={onClickAdd}>
+                                                <svg
+                                                    width="12"
+                                                    height="12"
+                                                    viewBox="0 0 12 12"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                    d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
+                                                    fill="white"
+                                                    />
+                                                </svg>
+                                                <span>Добавить</span>
+                                                {count > 0 && <i>{count}</i>}
+                                            </button>
                                             </div>
-                                            <div class="app-catalog-1vphnpr eoxh2f70"><button class="e13060xl0 e4uhfkv0 app-catalog-4qc1vl e4mggex0" data-meta-name="" data-meta-disabled="false" type="button" title=""><span class="app-catalog-1xdhyk6 e1hf2t4f0"><span class="e1pbr73b0 app-catalog-bh6qcy e1dsa0940"><span class="e1fsc6a40 app-catalog-6po9t6 e14kw8wi0"><svg viewBox="0 0 20 20"><use href="#cart_add"></use></svg></span><span class="app-catalog-19y4hmw e1fnp08x0">Купить как Юр.Лицо</span></span></span></button></div>
                                         </div>
                                     </div>
                                 </div>
@@ -134,4 +190,4 @@ const PowerunitComponent = () => {
     )
 }
 
-export default PowerunitComponent
+export default FullItem

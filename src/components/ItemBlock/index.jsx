@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
-
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/slices/cartSlice';
 
-function ItemBlock({id, price, title, image, letters, types, rating})
+function ItemBlock({value})
 {
 
+    const {id, price, title, imageUrl, letters, types, rating} = value
     
+    let [procPrice, setProcPrice] = useState(price)
+
     const dispatch = useDispatch()
 
     let [count, setCount] = useState(0)
@@ -19,14 +22,15 @@ function ItemBlock({id, price, title, image, letters, types, rating})
                 id,
                 title,
                 price,
-                image,
+                imageUrl,
             }
         } else {
              item = {
-                id,
+                id:id+types[typeCurr]+letters[letterCurr],
+                idPage: id,
                 title,
-                price,
-                image,
+                price:procPrice,
+                imageUrl,
                 type: types[typeCurr],
                 letter: letters[letterCurr]
             }
@@ -42,32 +46,66 @@ function ItemBlock({id, price, title, image, letters, types, rating})
     return (
         <div className="item-block-wrapper">
              <div className="item-block">
+                <Link key={value.category == 1 ? `${value.id}${typeCurr}${letterCurr}`:value.id} to={`/Component/${value.id}`}>
                 <img
                     className="item-block__image"
-                    src={image}
+                    src={imageUrl}
                     alt="Item"
                 />
                 <h4 className="item-block__title">{title}</h4>
+                </Link>
                 {types && letters  && 
                     <div className="item-block__selector">
                     <ul>
                         {
                             types.map((value, i) => (
-                                <li key={i} onClick={() => setTypeCurr(i)} className={ typeCurr === i ? 'active' : ''}>{value}</li>
+                                <li key={i} onClick={() => {
+                                    setTypeCurr(i)
+                                    if(i == 0){
+                                        if(letterCurr == 1){
+                                            setProcPrice(price - price * 0.1)
+                                        } else if (letterCurr == 2) {
+                                            setProcPrice(price + price * 0.1)
+                                        } else {
+                                            setProcPrice(price)
+                                        }
+                                    } else {
+                                        if(letterCurr == 1){
+                                            setProcPrice((price - price * 0.1) +  600)
+                                        } else if (letterCurr == 2) {
+                                            setProcPrice((price + price * 0.1) +  600)
+                                        } else {
+                                            setProcPrice(price + 600)
+                                        }
+                                    }
+                                    } 
+                                } className={ typeCurr === i ? 'active' : ''}>{value}</li>
                             ))
                         }
                     </ul>
                     <ul>
                         {
                             letters.map((value, index) => (
-                                <li key={index} onClick={() => setLetterCurr(index)} className={letterCurr === index ? 'active' : ''}>{value}</li>
+                                <li key={index} onClick={() => 
+                                    {
+                                        setLetterCurr(index)
+                                        if(index === 1){
+                                            setProcPrice(typeCurr == 1 ? (price - price * 0.1) + 600 : (price - price * 0.1))
+                                        } else if (index === 2){
+                                            setProcPrice(typeCurr == 1 ? (price + price * 0.1) + 600 : price + price * 0.1)
+                                        } else {
+                                            setProcPrice(typeCurr == 1 ? price + 600 : price)
+                                        }
+                                }} className={letterCurr === index ? 'active' : ''}>{value}</li>
                             ))
                         }
                     </ul>
                 </div>
                 }
+                
                 <div className="item-block__bottom">
-                    <div className="item-block__price">от {price} ₽</div>
+                    <div className="item-block__price">от {procPrice} ₽</div>
+                    
                     <button className="button button--outline button--add" onClick={onClickAdd}>
                         <svg
                             width="12"
