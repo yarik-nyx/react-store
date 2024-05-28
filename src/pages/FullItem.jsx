@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/slices/cartSlice';
 import '../scss/components/_full-item.scss'
+import SkeletonFullItem from './SkeletonFullItem';
 
 
 const FullItem = () => {
@@ -40,6 +41,7 @@ const FullItem = () => {
 
     let [letterCurr, setLetterCurr] = useState(0)
 
+    const [isLoading, setLoading] = React.useState(true)
 
     const [data, setData] = React.useState()
 
@@ -51,10 +53,12 @@ const FullItem = () => {
 
     const fetchComponent = async () => {
         try {
+            setLoading(true)
             const {data} = await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items/${id}`)
-            console.log(data);
             setData(data)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             alert('Компонент не найден')
             navigate('/')
         }
@@ -65,12 +69,10 @@ const FullItem = () => {
         fetchComponent()
     }, [])
 
-    if(!data){
-        return 
-    }
 
     return (
         <>
+        { isLoading ? <><SkeletonFullItem></SkeletonFullItem></> :
             <div class="e19lhdq00 app-catalog-1sbr2xg e164boj10" data-meta-name="">
             <div data-meta-name="ProductHeaderLayout" class="app-catalog-1xdhyk6 e19nkc9p0">
                 <div class="app-catalog-64xkav eyocz9l0"></div>
@@ -186,6 +188,7 @@ const FullItem = () => {
                 </div>
             </div>
         </div>
+        }
     </>
     )
 }
