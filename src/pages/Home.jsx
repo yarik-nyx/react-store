@@ -12,19 +12,20 @@ import Pagination from '../components/Pagination'
 const Home = ({searchValue}) => {
     const dispatch = useDispatch()
 
+    const categories = ['Processors', 'Motherboards','Videocards','Rams','PowerSupplies', 'Coolings']
 
 
     const fetchData = async () => {
         setLoading(true)
 
-        const sort = sortId.sortProperty.replace("-", "")
         
-        const category = categoryId > 0 ? `&category=${categoryId}` : ''
+
+        const sort = sortId.sortProperty.replace("-", "")
         
         const search = searchValue ? `search=${searchValue}` : ''
 
         try{
-            const res = await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?${search}${category}&sortBy=${sort}`)
+            const res = await axios.get(`http://localhost:5555/${categories[categoryId]}?${search}&sortby=${sort}&order=${sortId.sortType}`)
             dispatch(setPageCount(Math.ceil(res.data.length / 8)))
 
         } catch (err) {
@@ -32,7 +33,7 @@ const Home = ({searchValue}) => {
         }
 
         try {
-            const res =  await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items?page=${currentPage}&limit=8&${search}${category}&sortBy=${sort}&order=${sortId.sortType}`)
+            const res =  await axios.get(`http://localhost:5555/${categories[categoryId]}?page=${currentPage}&limit=8&${search}$&sortby=${sort}&order=${sortId.sortType}`)
 
             setTimeout(() => {
                 setItems(res.data)
@@ -73,13 +74,14 @@ const Home = ({searchValue}) => {
                 <Categories />
                 <Sort />
             </div>
-                <h2 className="content__title"> {categoryId === 0 ? 'Все комплектующие' : categoryName}</h2>
+                <h2 className="content__title"> {categoryName}</h2>
                 <div className="content__items">
                     {
                         isLoading ? [...new Array(12)].map((_, i) => <Skeleton key={i}/>) :
                         items.map((value) => (            
                                 <ItemBlock 
                                     key={value.id}
+                                    link={categories[categoryId]}
                                     value={value}/>
                         ))
                     }

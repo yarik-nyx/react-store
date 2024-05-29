@@ -12,14 +12,16 @@ function Categories()
         dispatch(setCategoryId(obj))
     }
 
-    const categories = ['Все', 'Процессоры', 'Материнские платы','Видеокарты','Оперативная память','Блоки питания', 'Охлаждение компьютера', 'HDD/SDD']
+    const categories = ['Processors', 'Motherboards','Videocards','Rams','PowerSupplies', 'Coolings']
 
     return (                       
          <div className="categories">
             <ul>
                 {
                     categories.map((categoryName, i) => (
-                        <li key={i} onClick={() => onClickCategory({categoryId:i, categoryName})} className={value.categoryId === i ? 'active' : ''}>
+                        <li key={i} onClick={
+                                () => onClickCategory({categoryId:i, categoryName})
+                            } className={value.categoryId === i ? 'active' : ''}>
                             {categoryName}
                         </li>
                     ))

@@ -5,7 +5,12 @@ import {Routes, Route} from 'react-router-dom'
 import Header from './components/Header'
 import Home from './pages/Home'
 import Cart from './pages/Cart'
-import FullItem from './pages/FullItem'
+import FullItemProc from './pages/FullItemProc'
+import FullItemMotherboard from './pages/FullItemMotherboard'
+import FullItemVideocard from './pages/FullItemVideocard'
+import FullItemRam from './pages/FullItemRam'
+import FullItemCooling from './pages/FullItemCooling'
+import FullItemPow from './pages/FullItemPow'
 import NotFound from './pages/NotFound'
 
 import './scss/app.scss'
@@ -24,7 +29,12 @@ function App()
                     <Routes>
                         <Route path='/' element={<Home searchValue={searchValue}/>}/>
                         <Route path='/cart' element={<Cart/>}/>
-                        <Route path='/Component/:id' element={<FullItem/>}/>
+                        <Route path='/Processors/:id' element={<FullItemProc/>}/>
+                        <Route path='/Motherboards/:id' element={<FullItemMotherboard/>}/>
+                        <Route path='/Videocards/:id' element={<FullItemVideocard/>}/>
+                        <Route path='/Rams/:id' element={<FullItemRam/>}/>
+                        <Route path='/PowerSupplies/:id' element={<FullItemPow/>}/>
+                        <Route path='/Coolings/:id' element={<FullItemCooling/>}/>
                         <Route path='*' element={<NotFound/>}/>
                     </Routes>
                 </div>

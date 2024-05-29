@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     category: {
       categoryId:0,
-      categoryName:'Все'
+      categoryName:'Processors'
     },
     currPageCount: 1,
     PageCount: 1,

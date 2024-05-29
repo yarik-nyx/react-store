@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import { addItem, removeItem, removeItems } from "../redux/slices/cartSlice";
 
-const CartItem = ({id, idPage, title,type, price, count, imageUrl, letter}) => {
+const CartItem = ({id, idPage, title,type, price, count, imageurl, letter, link}) => {
 
     const dispatch = useDispatch()
 
@@ -66,18 +66,18 @@ const CartItem = ({id, idPage, title,type, price, count, imageUrl, letter}) => {
             <div class="content__items">
                 <div class="cart__item">
                         <div className="cart__item-img">
-                        <Link key={id} to={type ? `/Component/${idPage}` : `/Component/${id}`}>
+                        <Link key={id} to={`/${link}/${idPage}`}>
                             <img
                             className="item-block__image"
-                            src={imageUrl}
+                            src={imageurl}
                             alt="Item"
                             />
                         </Link>
                         </div>
                         <div className="cart__item-info">
-                        <Link key={id} to={type ? `/Component/${idPage}` : `/Component/${id}`}>
+                        <Link key={id} to={`/${link}/${idPage}`}>
                                 <h3>{title}</h3>
-                                {type && letter  && <p>{type}, {letter}</p>}
+                                {type && letter  && <p>{type.type}, {letter.letter}</p>}
                             </Link>
                         </div>
                     

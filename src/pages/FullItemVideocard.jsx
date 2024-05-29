@@ -15,31 +15,17 @@ const FullItem = () => {
 
     const onClickAdd = () => {
         setCount(++count)
-        let item = {}
-        if(!data.types || !data.letters){
-             item = {
-                id:data.id,
-                title:data.title,
-                price:data.price,
-                imageUrl:data.imageUrl,
-            }
-        } else {
-             item = {
-                id:data.id,
-                title:data.title,
-                price:data.price,
-                imageUrl:data.imageUrl,
-                type: data.types[typeCurr],
-                letter: data.letters[letterCurr]
-            }
+        let item = {
+            id:data.id + 'Videocards',
+            idPage:data.id,
+            title:data.title,
+            price:data.price,
+            imageurl:data.imageurl,
+
         }
 
         dispatch(addItem(item))
     }
-
-    let [typeCurr, setTypeCurr] = useState(0)
-
-    let [letterCurr, setLetterCurr] = useState(0)
 
     const [isLoading, setLoading] = React.useState(true)
 
@@ -49,12 +35,10 @@ const FullItem = () => {
 
     const navigate = useNavigate()
 
-    const categories = ['','Процессор', 'Материнская плата','Видеокарта','Оперативная память','Блок питания', 'Устройство охлаждения', 'HDD/SDD']
-
     const fetchComponent = async () => {
         try {
             setLoading(true)
-            const {data} = await axios.get(`https://663117eac92f351c03dc28bf.mockapi.io/items/${id}`)
+            const {data} = await axios.get(`http://localhost:5555/Videocards/${id}`)
             setData(data)
             setLoading(false)
         } catch (error) {
@@ -77,7 +61,7 @@ const FullItem = () => {
             <div data-meta-name="ProductHeaderLayout" class="app-catalog-1xdhyk6 e19nkc9p0">
                 <div class="app-catalog-64xkav eyocz9l0"></div>
                 <div data-meta-name="ProductHeaderLayout__title" class="app-catalog-3z12b7 eotjnw00">
-                    <h1 class="e1ubbx7u0 eml1k9j0 app-catalog-lc5se5 e1gjr6xo0" color="Main">{categories[data.category]} {data.title}</h1>
+                    <h1 class="e1ubbx7u0 eml1k9j0 app-catalog-lc5se5 e1gjr6xo0" color="Main">Videocard {data.title}</h1>
                 </div>
                 <div class="app-catalog-1xdhyk6 e13k8jft0">
                     <div class="app-catalog-1kldss0 eyoh4ac0">
@@ -101,7 +85,7 @@ const FullItem = () => {
                                                 <div class="app-catalog-vh0pgf emaecg90">
                                                     <div class="ep5h2on0 app-catalog-13dx3zi e1u4mxfe0 is-draggable" data-meta-name="ImageGallery__main">
                                                         <div class="app-catalog-zqea8a e153n9o30">
-                                                            <div data-meta-id="GallerySlide_0" class="app-catalog-1igv0r1 e19l9blg0 is-selected"><img src={data.imageUrl} alt={data.title}
+                                                            <div data-meta-id="GallerySlide_0" class="app-catalog-1igv0r1 e19l9blg0 is-selected"><img src={data.imageurl} alt={data.title}
                                                                     loading="eager" width="100%" height="100%" class="ekkbt9g0 app-catalog-15kpwh2 e1fcwjnh0"/></div>
                                                         </div>
                                                     </div>
@@ -128,17 +112,13 @@ const FullItem = () => {
                                 <div class="fresnel-container fresnel-greaterThan-tabletP ">
                                     <div class="app-catalog-0 e1re7ty40">
                                         <ul class="app-catalog-omvud7 eetknoe3">
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Ядро:</span> <span class="app-catalog-kwpt08 eetknoe0">Alder Lake;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Частота:</span> <span class="app-catalog-kwpt08 eetknoe0">2.5 ГГц и 4.4 в режиме Turbo;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Сокет:</span> <span class="app-catalog-kwpt08 eetknoe0">LGA 1700;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Число ядер:</span> <span class="app-catalog-kwpt08 eetknoe0">6, потоков 12;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Тепловыделение:</span> <span class="app-catalog-kwpt08 eetknoe0">65 Вт;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
-                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Техпроцесс:</span> <span class="app-catalog-kwpt08 eetknoe0">10 нм;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Видеочипсет:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.videochipset.videochipset};</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Интерфейс:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.interface.interface};</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Частота ГП:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.base_frequency} МГц ({data.max_frequency} МГц, в режиме Boost);</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Объем видеопамяти:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.video_memory_capacity} ГБ;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Тип видеопамяти:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.type_capacity.type_capacity};</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Тепловыделение:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.TDP} Вт;</span></li>
+                                            <li class="app-catalog-f3ulnv eetknoe2"><span class="app-catalog-lquems eetknoe1">Макс. энергопотребление:</span> <span class="app-catalog-kwpt08 eetknoe0">{data.max_power} Вт;</span></li>
                                         </ul>
                                     </div>
                                 </div>

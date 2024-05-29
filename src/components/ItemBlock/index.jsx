@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/slices/cartSlice';
 
-function ItemBlock({value})
+function ItemBlock({value, link})
 {
 
-    const {id, price, title, imageUrl, letters, types, rating} = value
+    const {id, price, title, imageurl, letters, types, rating} = value
     
     let [procPrice, setProcPrice] = useState(price)
 
@@ -19,18 +19,21 @@ function ItemBlock({value})
         let item = {}
         if(!types || !letters){
              item = {
-                id,
+                id: id+link,
+                idPage: id,
                 title,
+                link,
                 price,
-                imageUrl,
+                imageurl,
             }
         } else {
              item = {
-                id:id+types[typeCurr]+letters[letterCurr],
+                id:id+types[typeCurr].type + letters[letterCurr].letter,
                 idPage: id,
+                link,
                 title,
                 price:procPrice,
-                imageUrl,
+                imageurl,
                 type: types[typeCurr],
                 letter: letters[letterCurr]
             }
@@ -46,10 +49,10 @@ function ItemBlock({value})
     return (
         <div className="item-block-wrapper">
              <div className="item-block">
-                <Link key={value.category == 1 ? `${value.id}${typeCurr}${letterCurr}`:value.id} to={`/Component/${value.id}`}>
+                <Link key={value.id} to={`/${link}/${value.id}`}>
                 <img
                     className="item-block__image"
-                    src={imageUrl}
+                    src={imageurl}
                     alt="Item"
                 />
                 <h4 className="item-block__title">{title}</h4>
@@ -61,25 +64,25 @@ function ItemBlock({value})
                             types.map((value, i) => (
                                 <li key={i} onClick={() => {
                                     setTypeCurr(i)
-                                    if(i == 0){
-                                        if(letterCurr == 1){
-                                            setProcPrice(price - price * 0.1)
-                                        } else if (letterCurr == 2) {
-                                            setProcPrice(price + price * 0.1)
+                                    if(i === 0){
+                                        if(letterCurr === 1){
+                                            setProcPrice(price - Math.round(price * 0.1))
+                                        } else if (letterCurr === 2) {
+                                            setProcPrice(price + Math.round(price * 0.1))
                                         } else {
                                             setProcPrice(price)
                                         }
                                     } else {
-                                        if(letterCurr == 1){
-                                            setProcPrice((price - price * 0.1) +  600)
-                                        } else if (letterCurr == 2) {
-                                            setProcPrice((price + price * 0.1) +  600)
+                                        if(letterCurr === 1){
+                                            setProcPrice(Math.round(price - price * 0.1) +  600)
+                                        } else if (letterCurr === 2) {
+                                            setProcPrice(Math.round(price + price * 0.1) +  600)
                                         } else {
                                             setProcPrice(price + 600)
                                         }
                                     }
                                     } 
-                                } className={ typeCurr === i ? 'active' : ''}>{value}</li>
+                                } className={ typeCurr === i ? 'active' : ''}>{value.type}</li>
                             ))
                         }
                     </ul>
@@ -90,13 +93,13 @@ function ItemBlock({value})
                                     {
                                         setLetterCurr(index)
                                         if(index === 1){
-                                            setProcPrice(typeCurr == 1 ? (price - price * 0.1) + 600 : (price - price * 0.1))
+                                            setProcPrice(typeCurr === 1 ? (Math.round(price - price * 0.1)) + 600 : Math.round(price - price * 0.1))
                                         } else if (index === 2){
-                                            setProcPrice(typeCurr == 1 ? (price + price * 0.1) + 600 : price + price * 0.1)
+                                            setProcPrice(typeCurr === 1 ? (Math.round(price + price * 0.1)) + 600 : Math.round(price + price * 0.1))
                                         } else {
-                                            setProcPrice(typeCurr == 1 ? price + 600 : price)
+                                            setProcPrice(typeCurr === 1 ? price + 600 : price)
                                         }
-                                }} className={letterCurr === index ? 'active' : ''}>{value}</li>
+                                }} className={letterCurr === index ? 'active' : ''}>{value.letter}</li>
                             ))
                         }
                     </ul>
