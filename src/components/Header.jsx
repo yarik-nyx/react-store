@@ -32,7 +32,7 @@ function Header()
                     </div>
                 </div>
             </Link>
-            {location.pathname !== '/cart' && (
+            {location.pathname !== '/cart' && location.pathname !== '/Order'   && (
                 <>
                             <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
                             <div className="header__cart">
