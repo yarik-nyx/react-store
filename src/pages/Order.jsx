@@ -1,5 +1,11 @@
 import React from 'react'
 
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import { useForm } from 'react-hook-form'
+import {useNavigate} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+
 import '../scss/components/_order.scss'
 
 
@@ -8,46 +14,87 @@ import { AddressContext } from '../App'
 import Map from '../components/Map/index'
 
 const Order = () => {
-    
+
+    const navigate = useNavigate()
+
+    const {items, totalPrice} = useSelector((state) => state.cartReducer)
+
+    const {register, handleSubmit, setError, formState: {errors}} = useForm({
+    defaultValues:{
+        tel: "",
+        email: ""
+    },
+    mode: 'onChange'
+    })
+
+  const onSubmit = async (values) => {
+
+    const reg = new RegExp("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+   if(!reg.test(values.tel)){
+        alert('Неправильный номер телефона')
+        return
+   }
+
+    if(!addressValue){
+        alert('Не выбран адрес')
+        return
+    }
+
+    const json = {
+        phone:values.tel,
+        email:values.email,
+        address:addressValue,
+        items: items,
+        totalPrice
+
+    }
+
+      alert('successful')
+      window.localStorage.setItem('order', JSON.stringify(json))
+      navigate(`/`);
+  }
+
+
+
+
     const {addressValue} = React.useContext(AddressContext)
-    
+
     return (
-<div class="checkout-container_qiQ">
-        <div class="checkout-container__steps_YKW">
-        <div class="checkout-client">
-            <div class="base-step-label_su9 checkout-client__step-label_Kxi">
-                <div class="base-step-label__number_xmR">1</div> Данные покупателя</div>
-            <div class="base-step-left-line_QiU">
-                <div class="checkout-client__type-toggle_L1m">    
-                </div>
-                <div class="base-checkout-client-individual_mDd checkout-client__individual_doz">
-                    <div class="base-checkout-client-individual__input-row-container_Y0C">
-                        <div class="base-input-phone-confirm-check_Xeh base-checkout-client-individual__input-row_PPL">
-                            <div class="base-input-row-validation_Vha">
-                                <div class="base-ui-input-row_uxh base-ui-input-row_filled_DoF"><label class="base-ui-input-row__label_JAu" for="ir-2cjqr">Телефон</label>
-                                    <div class="base-ui-input-row__input-container_m9W"><span class="base-ui-input-row__mask-placeholder_cGf"><span>+7 000 000-00-00</span></span>
-                                        <input class="base-ui-input-row__input_Gc5" id="ir-2cjqr" type="tel" maxlength="16" placeholder=""/>
-                                        
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="base-input-row-validation_Vha base-checkout-client-individual__input-row_PPL">
-                            <div class="base-ui-input-row_uxh base-ui-input-row_filled_DoF" ><label class="base-ui-input-row__label_JAu" for="ir-xrtv7">E-mail (необязательно)</label>
-                                <div class="base-ui-input-row__input-container_m9W">
-                                    
-                                    <input class="base-ui-input-row__input_Gc5" id="ir-xrtv7" type="text" maxlength="50"/>
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+    <Paper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+             <div class="checkout-container_qiQ">
+                <div class="checkout-container__steps_YKW">
+                    <div class="checkout-client">
+                        <div class="base-step-label_su9 checkout-client__step-label_Kxi">
+                            <div class="base-step-label__number_xmR">1</div> Данные покупателя</div>
+                                <div class="base-step-left-line_QiU">
+                                    <div class="checkout-client__type-toggle_L1m">    
+                                    </div>
+                                    <div class="base-checkout-client-individual_mDd checkout-client__individual_doz">
+                                        <div class='form'>
+                                            <TextField
+                                                className="field"
+                                                label="Phone"
+                                                error={Boolean(errors.tel?.message)}
+                                                helperText={errors.tel?.message}
+                                                type='text'                                               
+                                                inputProps={{maxLength:12}}
+                                                {...register('tel', {required: 'Укажите телефон'})}
+                                                
+                                                />
+                                            
+                                            <TextField 
+                                                className="field"
+                                                label="E-mail" 
+                                                error={Boolean(errors.email?.message)}
+                                                helperText={errors.email?.message}
+                                                type='email'
+                                                {...register('email', {required: 'Укажите почту'})}
+                                                    
+                                                />  
+                                        </div>
                     
-                </div>
-                
-                
-                
+                                    </div>  
             </div>
         </div>
         <div>
@@ -73,14 +120,16 @@ const Order = () => {
                 </div>    
             </div>
             </div>   
-            <div class="checkout-container__apply_BrK">
-                <div class="button pay-btn">
-                    <span>Оформить</span>
+                    <div class="checkout-container__apply_BrK">
+                        <button class="button pay-btn" type="submit" size="large" variant="contained" fullWidth>
+                                <span>Оформить</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </form>
+</Paper>  
     )
 }
 

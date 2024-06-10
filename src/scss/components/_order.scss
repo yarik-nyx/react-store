@@ -1,5 +1,6 @@
 @import '../variables';
 
+
 .pay-btn {
     font-size: 16px;
     font-weight: 600;
@@ -7,8 +8,38 @@
     padding: 16px;
   }
 
+
+  .form {
+    box-shadow: 0 2px 4px 0 rgba(94, 94, 94, 0.1), 0 3px 14px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    margin-top: 30px;
+    display: flex;
+    padding: 20px 16px;
+    gap: 16px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 125px;
+    width: 100%;
+    
+  }
+  
+  .field {
+    margin-bottom: 20px !important;
+    height: 20px;
+  }
+  
+  .title {
+    text-align: center !important;
+    font-weight: bold !important;
+    margin-bottom: 30px !important;
+  }
+
 .button {
     display: inline-block;
+    color: white;
     background-color: $orange;
     border-radius: 30px;
     padding: 10px 20px;
@@ -2845,6 +2876,10 @@
 .base-checkout-client-individual__second-line-block_PEq {
     margin-top: 8px;
     width: calc(50% - 4px)
+}
+
+.Paper{
+    height: 125px;
 }
 
 @media(min-width: 1200px) {
