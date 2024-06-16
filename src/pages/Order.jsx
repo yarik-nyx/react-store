@@ -1,11 +1,10 @@
 import React from 'react'
-
+import axios from 'axios'
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import { useForm } from 'react-hook-form'
 import {useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-
 import '../scss/components/_order.scss'
 
 
@@ -49,9 +48,21 @@ const Order = () => {
 
     }
 
-      alert('successful')
+    try {
+        const res = await axios.post("http://localhost:5555/Mail", {
+            email:values.email,
+            address:addressValue,
+            items
+        })
+        console.log("res", res);
+    } catch (error) {
+        console.log("err", error);
+    }
+
+
+
       window.localStorage.setItem('order', JSON.stringify(json))
-      navigate(`/`);
+      navigate(`/Purchase`);
   }
 
 
@@ -79,7 +90,7 @@ const Order = () => {
                                                 helperText={errors.tel?.message}
                                                 type='text'                                               
                                                 inputProps={{maxLength:12}}
-                                                {...register('tel', {required: 'Укажите телефон'})}
+                                                {...register('tel', {required: 'Укажите телефон', })}
                                                 
                                                 />
                                             

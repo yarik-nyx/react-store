@@ -2,6 +2,8 @@ import React from 'react'
 
 import {Routes, Route} from 'react-router-dom'
 
+
+
 import Header from './components/Header'
 import Home from './pages/Home'
 import Order from './pages/Order'
@@ -12,6 +14,7 @@ import FullItemVideocard from './pages/FullItemVideocard'
 import FullItemRam from './pages/FullItemRam'
 import FullItemCooling from './pages/FullItemCooling'
 import FullItemPow from './pages/FullItemPow'
+import ThxPurchase from './components/ThxPurchase/index'
 import NotFound from './pages/NotFound'
 
 import './scss/app.scss'
@@ -40,6 +43,7 @@ function App()
                             <Route path='/Rams/:id' element={<FullItemRam/>}/>
                             <Route path='/PowerSupplies/:id' element={<FullItemPow/>}/>
                             <Route path='/Coolings/:id' element={<FullItemCooling/>}/>
+                            <Route path='/Purchase' element={<ThxPurchase/>}/>
                             <Route path='*' element={<NotFound/>}/>
                         </Routes>
                     </div>
