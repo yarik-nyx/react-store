@@ -12,13 +12,23 @@ const MapComp = () => {
 
     const {setAddressValue} = React.useContext(AddressContext)
 
-    const [currCoord, setCoord] = React.useState([59.939735, 30.322731])
-    const [currZoom, setZoom] = React.useState(15)
+
+    const [currCoord, setCoord] = React.useState([59.934650, 30.370225])
+    const [currZoom, setZoom] = React.useState(16)
+    const mapRef = React.useRef()
+
+
+    React.useEffect(() => {
+        setAddressValue(Points[0].addr)
+        setCoord(Points[0].coords)
+    }, [])
 
     const onAddrClick = (point) => {
         setAddressValue(point.addr);
         setCoord(point.coords)
         setZoom(18)
+        mapRef.current.setZoom(currZoom);
+
         
     }
 
@@ -26,6 +36,7 @@ const MapComp = () => {
         <YMaps>
         <section >
           <Map
+            instanceRef={mapRef}
             className={styles.map}
             state={{
               center: currCoord, 

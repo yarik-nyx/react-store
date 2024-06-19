@@ -20,7 +20,6 @@ const Order = () => {
 
     const {register, handleSubmit, setError, formState: {errors}} = useForm({
     defaultValues:{
-        tel: "",
         email: ""
     },
     mode: 'onChange'
@@ -28,19 +27,8 @@ const Order = () => {
 
   const onSubmit = async (values) => {
 
-    const reg = new RegExp("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
-   if(!reg.test(values.tel)){
-        alert('Неправильный номер телефона')
-        return
-   }
-
-    if(!addressValue){
-        alert('Не выбран адрес')
-        return
-    }
 
     const json = {
-        phone:values.tel,
         email:values.email,
         address:addressValue,
         items: items,
@@ -83,17 +71,6 @@ const Order = () => {
                                     </div>
                                     <div class="base-checkout-client-individual_mDd checkout-client__individual_doz">
                                         <div class='form'>
-                                            <TextField
-                                                className="field"
-                                                label="Phone"
-                                                error={Boolean(errors.tel?.message)}
-                                                helperText={errors.tel?.message}
-                                                type='text'                                               
-                                                inputProps={{maxLength:12}}
-                                                {...register('tel', {required: 'Укажите телефон', })}
-                                                
-                                                />
-                                            
                                             <TextField 
                                                 className="field"
                                                 label="E-mail" 
