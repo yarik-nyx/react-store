@@ -33,7 +33,7 @@ const Home = ({searchValue}) => {
         }
 
         try {
-            const res =  await axios.get(`http://localhost:5555/${categories[categoryId]}?page=${currentPage}&limit=8&${search}$&sortby=${sort}&order=${sortId.sortType}`)
+            const res =  await axios.get(`http://localhost:5555/${categories[categoryId]}?page=${currentPage}&limit=8&${search}&sortby=${sort}&order=${sortId.sortType}`)
 
             setTimeout(() => {
                 setItems(res.data)
