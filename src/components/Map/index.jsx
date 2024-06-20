@@ -28,6 +28,7 @@ const MapComp = () => {
         setCoord(point.coords)
         setZoom(18)
         mapRef.current.setZoom(currZoom);
+        mapRef.current.setCenter(currCoord)
 
         
     }
