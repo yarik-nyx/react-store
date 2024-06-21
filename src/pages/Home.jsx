@@ -27,6 +27,7 @@ const Home = ({searchValue}) => {
         try{
             const res = await axios.get(`http://localhost:5555/${categories[categoryId]}?${search}&sortby=${sort}&order=${sortId.sortType}`)
             dispatch(setPageCount(Math.ceil(res.data.length / 8)))
+            
 
         } catch (err) {
             dispatch(setPageCount(1))

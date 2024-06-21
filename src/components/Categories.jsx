@@ -12,7 +12,7 @@ function Categories()
         dispatch(setCategoryId(obj))
     }
 
-    const categories = ['Processors', 'Motherboards','Videocards','Rams','PowerSupplies', 'Coolings']
+    const categories = ['Процессоры', 'Материнские платы','Видеокарты','Оперативная память','Блоки питании', 'Охлаждение']
 
     return (                       
          <div className="categories">
